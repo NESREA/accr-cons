@@ -10,30 +10,47 @@
 ## A decision was made to bring all the regular expression used in 
 ## this project into a single data structure to simplify maintenance.
 # ===
-emlhdr.rgx <- '(e|e\\.)mail'
 
-regex_pats <- list(
-  cac.no = '(RC|KN)\\s.+\\d{3,}$',
-  email = '[[:alnum:]]+@[[:alnum:]]+\\.(com|org|net|ng|uk|edu|biz)',
-  phone = '0[7-9][0-1][0-9]{8}',
-  serialno = '^s(\\.|/)n',
-  eml.hdr = emlhdr.rgx,
-  orig.hdrs = c(
-    '^cert',
-    'consult',
-    'represent',
-    emlhdr.rgx,
-    'ea|audit',
-    'em|mgt|management.{1}sys',
-    'studies',
-    'tech',
-    'lab.',
-    'waste',
-    '^(cac|rc)',
-    'remark'
-  )
-)
-rm(emlhdr.rgx)
+regex_pats <- structure(
+  list(
+    structure(
+      list(
+        '(RC|KN)\\s.+\\d{3,}$',
+        '[[:alnum:]]+@[[:alnum:]]+\\.(com|org|net|ng|uk|edu|biz)',
+        '0[7-9][0-1][0-9]{8}'
+      ), names = c('cac.no', 'email', 'phone')),
+    structure(
+      list(
+        's(\\.|/)n',
+        '(e|e\\.)mail',
+        '^cert',
+        '.?consult',
+        '^represent',
+        'ea|.+audit',
+        'em|mgt|management.{1}sys',
+        '.+studies',
+        '.+tech',
+        '^lab.',
+        '^waste',
+        '^(cac|rc)',
+        '^remark'
+      ), names = c('sno',
+                   'eml',
+                   'cert',
+                   'cons',
+                   'rep',
+                   'aud',
+                   'emgt',
+                   'stud',
+                   'tech',
+                   'lab',
+                   'wst',
+                   'cac',
+                   'rmk'
+                  )
+      )
+    ),
+  names = c('values', 'headers'))
 
 
 #
