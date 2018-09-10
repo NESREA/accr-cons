@@ -48,12 +48,12 @@ newCols <-
     'consultant',
     'rep',
     'emails',
-    'competence.EA',
-    'competence.EMS',
-    'competence.ES',
-    'competence.ET',
-    'competence.LAB',
-    'competence.WM',
+    'env.audit',
+    'env.mgt',
+    'env.studies',
+    'env.tech',
+    'lab',
+    'waste',
     'cac.no',
     'remarks'
   )
@@ -62,19 +62,19 @@ dfAll <-
   map(dfList,
       function(df) {
         df %>%
-          remove_column(regex_pats$serialno) %>%
-          remove_column('expiry') %>%
-          process_header(newCols, regex_pats$orig.hdrs) %>%
+          remove_column(regex_pats$headers$serialno) %>%
+          remove_column(regex_pats$headers$exp) %>%
+          process_header(newCols, regex_pats$headers) %>%
           fix_cac_column() %>%
           set_column_order(newCols)
       }) %>%
   bind_rows() %>%
   extract_col_str(old = 'emails',
                   new = 'email',
-                  pattern = regex_pats$email) %>%
+                  pattern = regex_pats$values$email) %>%
   extract_col_str(old = 'emails',
                   new = 'phone',
-                  pattern = regex_pats$phone) %>%
+                  pattern = regex_pats$values$phone) %>%
   select(-emails) 
 
 rm(dfList)
